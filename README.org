@@ -5,5 +5,5 @@
 #+begin_src shell
 cd /tmp
 git clone https://github.com/RainMark/dotspacemacs.git
-cd dotspacemacs && ./install.sh
+cd dotspacemacs && /tmp/dotspacemacs/install.sh
 #+end_src
