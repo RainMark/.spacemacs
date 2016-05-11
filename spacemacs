@@ -29,11 +29,11 @@ values."
      git
      markdown
      org
-	 semantic
-	 ycmd
-	 auto-completion
-	 cscope
-	 c-c++
+     semantic
+     ycmd
+     auto-completion
+     cscope
+     c-c++
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -256,6 +256,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq-default c-basic-offset 4
                 tab-width 4
                 indent-tabs-mode t)
+  (setq tab-width 4)
   (setq-default dotspacemacs-line-numbers t)
   (fcitx-evil-turn-on)
   ;; (add-hook 'c-mode-common-hook '(lambda () (c-toggle-auto-state 1)))
