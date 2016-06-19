@@ -103,8 +103,8 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-						 spacemacs-dark
-						 solarized-dark
+			 spacemacs-dark
+			 solarized-dark
                          spacemacs-light
                          solarized-light
                          leuven
@@ -253,10 +253,10 @@ before packages are loaded. If you are unsure, you should try in setting them in
 (defun dotspacemacs/user-config ()
   (setq c-default-style "linux")
 
-  (setq-default c-basic-offset 4
-                tab-width 4
+  (setq-default c-basic-offset 8
+                tab-width 8
                 indent-tabs-mode t)
-  (setq tab-width 4)
+  (setq tab-width 8)
   (setq-default dotspacemacs-line-numbers t)
   (fcitx-evil-turn-on)
   ;; (add-hook 'c-mode-common-hook '(lambda () (c-toggle-auto-state 1)))
