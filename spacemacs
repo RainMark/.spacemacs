@@ -18,7 +18,9 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
-     sql
+     ;; markdown
+     ;; html
+     ;; sql
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -35,9 +37,9 @@ values."
      python
      ;; (shell :variables
      ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     ;;        modeshell-default-position 'bottom)
      ;; spell-checking
-     syntax-checking
+     ;; syntax-checking
      version-control
      )
    ;; List of additional packages that will be installed without being
@@ -102,9 +104,9 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
+			 solarized-dark
                          monokai
 			 spacemacs-dark
-			 solarized-dark
                          spacemacs-light
                          solarized-light
                          leuven
@@ -254,10 +256,14 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq-default c-basic-offset 8
                 tab-width 8
                 indent-tabs-mode t)
-  (setq tab-width 8)
   ;; (add-hook 'c-mode-common-hook '(lambda () (c-toggle-auto-state 1)))
   (fcitx-evil-turn-on)
   ;; Fix python start warning.
+  (setq tab-width 8)
+  (setq
+   nxml-child-indent 8
+   nxml-attribute-indent 8
+   nxml-slash-auto-complete-flag t)
   (setq python-shell-completion-native-enable nil)
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
@@ -276,7 +282,7 @@ you should place you code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (sql-indent helm-company helm-c-yasnippet company-ycmd company-statistics company-c-headers company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete evil-unimpaired yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org stickyfunc-enhance srefactor spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-cscope xcscope helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter flycheck-ycmd ycmd request-deferred request deferred flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fcitx fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s disaster diminish diff-hl define-word column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme))))
+    (markdown-toc mmm-mode markdown-mode gh-md solarized-theme web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data sql-indent helm-company helm-c-yasnippet company-ycmd company-statistics company-c-headers company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete evil-unimpaired yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org stickyfunc-enhance srefactor spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-cscope xcscope helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter flycheck-ycmd ycmd request-deferred request deferred flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fcitx fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s disaster diminish diff-hl define-word column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
