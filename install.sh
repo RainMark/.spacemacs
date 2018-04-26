@@ -1,6 +1,6 @@
 #!/bin/bash
 
 mv ~/.spacemacs ~/.spacemacs.old
-cp ../dotspacemacs ~/ -R
+cp -R ../dotspacemacs ~/
 mv ~/dotspacemacs ~/.dotspacemacs
 ln -s ~/.dotspacemacs/spacemacs ~/.spacemacs

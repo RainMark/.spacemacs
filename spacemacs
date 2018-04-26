@@ -18,6 +18,8 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     javascript
+     python
      ;; markdown
      ;; html
      ;; sql
@@ -27,28 +29,28 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ;; better-defaults
-     emacs-lisp
+     ;; emacs-lisp
      semantic
      cscope
      auto-completion
      ;; ycmd
-     org
+     ;; org
      c-c++
-     python
+     ;; python
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        modeshell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
-     version-control
+     ;; version-control
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(
-                                      fcitx
-                                      )
+   ;; dotspacemacs-additional-packages '(
+   ;;                                    fcitx
+   ;;                                    )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -90,7 +92,7 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner 'random
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
@@ -104,19 +106,20 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-			 solarized-dark
                          monokai
-			 spacemacs-dark
+                         dracula
+                         spacemacs-dark
+                         solarized-dark
                          spacemacs-light
                          solarized-light
-                         leuven
-                         zenburn)
+                         )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   ;; dotspacemacs-default-font '("Monaco"
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.0)
@@ -160,7 +163,7 @@ values."
    ;; (default 'cache)
    dotspacemacs-auto-save-file-location 'cache
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
-   dotspacemacs-max-rollback-slots 5
+   dotspacemacs-max-rollback-slots 10
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
@@ -207,7 +210,7 @@ values."
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 90
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters the
    ;; point when it reaches the top or bottom of the screen. (default t)
@@ -253,18 +256,19 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
 (defun dotspacemacs/user-config ()
   (setq c-default-style "linux")
-  (setq-default c-basic-offset 8
-                tab-width 8
-                indent-tabs-mode t)
+  (setq-default c-basic-offset 4
+                tab-width 4
+                indent-tabs-mode nil)
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
   ;; (add-hook 'c-mode-common-hook '(lambda () (c-toggle-auto-state 1)))
-  (fcitx-evil-turn-on)
+  ;; (fcitx-evil-turn-on)
   ;; Fix python start warning.
-  (setq tab-width 8)
-  (setq
-   nxml-child-indent 8
-   nxml-attribute-indent 8
-   nxml-slash-auto-complete-flag t)
-  (setq python-shell-completion-native-enable nil)
+  ;; (setq tab-width 4)
+  ;; (setq
+  ;;  nxml-child-indent 4
+  ;;  nxml-attribute-indent 4
+  ;;  nxml-slash-auto-complete-flag t)
+  ;; (setq python-shell-completion-native-enable nil)
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration.
@@ -280,12 +284,15 @@ you should place you code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(evil-want-Y-yank-to-eol t)
  '(package-selected-packages
    (quote
-    (markdown-toc mmm-mode markdown-mode gh-md solarized-theme web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data sql-indent helm-company helm-c-yasnippet company-ycmd company-statistics company-c-headers company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete evil-unimpaired yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org stickyfunc-enhance srefactor spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-cscope xcscope helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter flycheck-ycmd ycmd request-deferred request deferred flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fcitx fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s disaster diminish diff-hl define-word column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme))))
+    (web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode dracula-theme flyspell-correct-helm flyspell-correct auto-dictionary fuzzy org-category-capture dash-functional markdown-toc mmm-mode markdown-mode gh-md solarized-theme web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data sql-indent helm-company company-ycmd company-statistics company-c-headers company-anaconda company ac-ispell auto-complete evil-unimpaired yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org stickyfunc-enhance srefactor spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-cscope xcscope helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter flycheck-ycmd ycmd request-deferred request deferred flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s disaster diminish diff-hl define-word column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((((class color) (min-colors 257)) (:foreground "#F8F8F2" :background "#272822" :family "Source Code Pro" :foundry "nil" :slant normal :weight normal :height 140 :width normal)) (((class color) (min-colors 89)) (:foreground "#F5F5F5" :background "#1B1E1C" :family "Source Code Pro" :foundry "nil" :slant normal :weight normal :height 140 :width normal)))))
