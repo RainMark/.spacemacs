@@ -18,8 +18,12 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
-     javascript
+     ;; lsp
+     ;; lsp-clangd
+     ;; flycheck
+     c-c++
      python
+     javascript
      ;; markdown
      ;; html
      ;; sql
@@ -30,13 +34,11 @@ values."
      ;; ----------------------------------------------------------------
      ;; better-defaults
      ;; emacs-lisp
-     semantic
+     ;; semantic
      cscope
      auto-completion
      ;; ycmd
      ;; org
-     c-c++
-     ;; python
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        modeshell-default-position 'bottom)
@@ -73,9 +75,9 @@ values."
    ;; This variable has no effect if Emacs is launched with the parameter
    ;; `--insecure' which forces the value of this variable to nil.
    ;; (default t)
-   dotspacemacs-elpa-https t
+   dotspacemacs-elpa-https nil
    ;; Maximum allowed time in seconds to contact an ELPA repository.
-   dotspacemacs-elpa-timeout 5
+   dotspacemacs-elpa-timeout 30
    ;; If non nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. (default t)
    dotspacemacs-check-for-update t
@@ -85,14 +87,15 @@ values."
    ;; unchanged. (default 'vim)
    dotspacemacs-editing-style 'vim
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
+   dotspacemacs-verbose-loading 'official
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'random
+   ;; dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner nil
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
@@ -252,14 +255,35 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  )
+)
 
 (defun dotspacemacs/user-config ()
+  ;; (require 'lsp)
+  ;; ;; in case you are using client which is available as part of lsp refer to the
+  ;; ;; table bellow for the clients that are distributed as part of lsp-mode.el
+  ;; (require 'lsp-clients)
+  ;; (add-hook 'programming-mode-hook 'lsp)
+
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  (setq exec-path (append exec-path '("/usr/local/bin")))
   (setq c-default-style "linux")
   (setq-default c-basic-offset 4
                 tab-width 4
                 indent-tabs-mode nil)
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+  ;; (setq-default flycheck-disabled-checkers '(c/c++-clang))
+  ;; (setq-local flycheck-clang-args "-fsyntax-only -stdlib=libstdc++")
+  ;; (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
+  ;; (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-include-path
+  ;;                                           (list (expand-file-name "/usr/local/Cellar/gcc@4.9/4.9.4_1/include/c++/4.9.4/x86_64-apple-darwin17.3.0")
+  ;;                                                 (expand-file-name "~/develop/projects/igraph_packager/compile_dir/_external/usr/local/include/")
+  ;;                                                 (expand-file-name "~/develop/projects/igraph_packager/compile_dir/igraph_service/")
+  ;;                                                 (expand-file-name "/usr/local/Cellar/gcc@4.9/4.9.4_1/include/c++/4.9.4")
+  ;;                                                 ))))
+
+  (setq shell-file-name "/bin/sh")
+  (setq projectile-enable-caching t)
+
   ;; (add-hook 'c-mode-common-hook '(lambda () (c-toggle-auto-state 1)))
   ;; (fcitx-evil-turn-on)
   ;; Fix python start warning.
@@ -288,11 +312,32 @@ you should place you code here."
    ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(evil-want-Y-yank-to-eol t)
  '(package-selected-packages
-   (quote
-    (web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode dracula-theme flyspell-correct-helm flyspell-correct auto-dictionary fuzzy org-category-capture dash-functional markdown-toc mmm-mode markdown-mode gh-md solarized-theme web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data sql-indent helm-company company-ycmd company-statistics company-c-headers company-anaconda company ac-ispell auto-complete evil-unimpaired yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org stickyfunc-enhance srefactor spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-cscope xcscope helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter flycheck-ycmd ycmd request-deferred request deferred flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s disaster diminish diff-hl define-word column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme))))
+   '(yasnippet monokai-theme web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode dracula-theme flyspell-correct-helm flyspell-correct auto-dictionary fuzzy org-category-capture dash-functional markdown-toc mmm-mode markdown-mode gh-md solarized-theme web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data sql-indent helm-company company-ycmd company-statistics company-c-headers company-anaconda company ac-ispell auto-complete evil-unimpaired yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org stickyfunc-enhance srefactor spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-cscope xcscope helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter flycheck-ycmd ycmd request-deferred request deferred flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s disaster diminish diff-hl define-word column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((((class color) (min-colors 257)) (:foreground "#F8F8F2" :background "#272822" :family "Source Code Pro" :foundry "nil" :slant normal :weight normal :height 140 :width normal)) (((class color) (min-colors 89)) (:foreground "#F5F5F5" :background "#1B1E1C" :family "Source Code Pro" :foundry "nil" :slant normal :weight normal :height 140 :width normal)))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(evil-want-Y-yank-to-eol t)
+ '(package-selected-packages
+   '(cquery lsp-clangd lsp-ui lsp-python lsp-javascript-typescript typescript-mode company-lsp lsp-mode ht yasnippet monokai-theme web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode dracula-theme flyspell-correct-helm flyspell-correct auto-dictionary fuzzy org-category-capture dash-functional markdown-toc mmm-mode markdown-mode gh-md solarized-theme web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data sql-indent helm-company company-ycmd company-statistics company-c-headers company-anaconda company ac-ispell auto-complete evil-unimpaired yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org stickyfunc-enhance srefactor spaceline powerline restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds helm-cscope xcscope helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter flycheck-ycmd ycmd request-deferred request deferred flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s disaster diminish diff-hl define-word column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((((class color) (min-colors 257)) (:foreground "#F8F8F2" :background "#272822" :family "Source Code Pro" :foundry "nil" :slant normal :weight normal :height 140 :width normal)) (((class color) (min-colors 89)) (:foreground "#F5F5F5" :background "#1B1E1C" :family "Source Code Pro" :foundry "nil" :slant normal :weight normal :height 140 :width normal)))))
+)
