@@ -31,6 +31,9 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     markdown
+     ;; javascript
+     ;; yaml
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -42,10 +45,12 @@ values."
      ;; auto-completion
      ;; better-defaults
      emacs-lisp
+     ;; clojure
      c-c++
      auto-completion
      python
      cscope
+     ;; java
      ;; git
      ;; markdown
      ;; org
@@ -196,7 +201,8 @@ values."
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
    ;; (default 'cache)
-   dotspacemacs-auto-save-file-location 'cache
+   ;; dotspacemacs-auto-save-file-location 'cache
+   dotspacemacs-auto-save-file-location nil
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 10
    ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
@@ -329,7 +335,16 @@ you should place your code here."
   (setq-default c-basic-offset 4
                 tab-width 4
                 indent-tabs-mode nil)
+  ;; (defun set-tab-width ()
+  ;;   (interactive)
+  ;;   (let ((width (read-number "tab width>")))
+  ;;     (setq-default c-basic-offset 4
+  ;;                   tab-width 4
+  ;;                   indent-tabs-mode nil)
+  ;;     )
+  ;;   )
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\BUILD\\'" . python-mode))
   (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
   (recentf-mode 0)
 
@@ -345,6 +360,36 @@ you should place your code here."
   (setq x-wait-for-event-timeout nil)
   (customize-set-variable 'helm-ff-lynx-style-map t)
 
+  (setq delete-by-moving-to-trash t)
+  (setq trash-directory "~/.Trash")
+
+  ;; https://github.com/syl20bnr/spacemacs/issues/5609
+  (setq linum-format (concat linum-format " "))
+
+  (setq helm-ag-base-command "rg -S --no-heading -j 8")
+
+  ;;Paredit
+  ;; (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+  ;; (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
+  ;; (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+  ;; (add-hook 'ielm-mode-hook #'enable-paredit-mode)
+  ;; (add-hook 'lisp-mode-hook #'enable-paredit-mode)
+  ;; (add-hook 'clojure-mode-hook #'enable-paredit-mode)
+  ;; (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  ;; (add-hook 'scheme-mode-hook #'enable-paredit-mode)
+
+  ;; opengrok-restful
+  (add-to-list 'load-path "~/Project/opengrok-restful")
+  (require 'opengrok-restful)
+  (setq opengrok-restful-url
+        "http://10.101.169.135:8080/api/v1/search")
+  (setq opengrok-restful-source-directory
+        "~/develop_135/ssd/bingyu/clang")
+  (global-set-key (kbd "M-d") 'opengrok-restful-lookup-def)
+  (global-set-key (kbd "M-f") 'opengrok-restful-lookup-full)
+  (global-set-key (kbd "M-s") 'opengrok-restful-lookup-symbol)
+  (global-set-key (kbd "M-p") 'opengrok-restful-lookup-path)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -356,10 +401,10 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yapfify pyvenv pytest pyenv-mode py-isort pip-requirements modern-cpp-font-lock live-py-mode hy-mode dash-functional helm-pydoc helm-cscope xcscope helm-company helm-c-yasnippet fuzzy disaster cython-mode company-statistics company-c-headers company-anaconda company cmake-mode clang-format auto-yasnippet yasnippet anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
+    (mmm-mode markdown-toc markdown-mode gh-md clj-refactor inflections clojure-snippets paredit cider-eval-sexp-fu cider sesman queue parseedn clojure-mode parseclj a pyim pyim-basedict xr pangu-spacing find-by-pinyin-dired fcitx ace-pinyin pinyinlib web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode company-emacs-eclim eclim request-deferred yapfify pyvenv pytest pyenv-mode py-isort pip-requirements modern-cpp-font-lock live-py-mode hy-mode dash-functional helm-pydoc helm-cscope xcscope helm-company helm-c-yasnippet fuzzy disaster cython-mode company-statistics company-c-headers company-anaconda company cmake-mode clang-format auto-yasnippet yasnippet anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:foreground "#ABB2BF" :background "#282C34")))))
