@@ -1,9 +1,0 @@
-#+title: Spacemacs 的点配置文件
-- 需要提前安装 Emacs 和 Spacemacs 。
-
-*** 安装本配置文件
-#+begin_src shell
-cd /tmp
-git clone https://github.com/RainMark/dotspacemacs.git
-cd dotspacemacs && /tmp/dotspacemacs/install.sh
-#+end_src
