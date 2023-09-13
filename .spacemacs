@@ -617,7 +617,7 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;; clang-format
-  (add-to-list 'exec-path (expand-file-name "/opt/tiger/typhoon-blade/gccs/x86_64-x86_64-clang-1101/bin"))
+  (add-to-list 'exec-path (expand-file-name "/opt/clang-fmt/bin"))
   ;; bazel
   (add-to-list 'auto-mode-alist '("\\BUILD\\'" . python-mode))
   ;; c/c++
@@ -632,9 +632,9 @@ before packages are loaded."
   ;; disable all source control hooks
   (setq vc-handled-backends nil)
   ;; clangd
-  (setq lsp-clients--clangd-default-executable "/data01/home/zhoubingyu.zby/clangd_16.0.2/bin/clangd")
+  (setq lsp-clients--clangd-default-executable "/clangd_16.0.2/bin/clangd")
   ;; ccls
-  (setq ccls-executable "/data01/home/zhoubingyu.zby/emacs/sysroot/bin/ccls")
+  (setq ccls-executable "/emacs/sysroot/bin/ccls")
   ;; mouse scroll
   (global-set-key [mouse-4] 'scroll-down-line)
   (global-set-key [mouse-5] 'scroll-up-line)
